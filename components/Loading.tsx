@@ -57,6 +57,10 @@ export default function Loading({ setIsInitialized, setCurrentView }: LoadingPro
       if (process.env.NEXT_PUBLIC_BYPASS_TELEGRAM_AUTH === 'true') {
         initData = "temp";
       }
+      console.log("Sending to /api/user:", {
+        telegramInitData: initData,
+        referrerTelegramId,
+      });      
       const response = await fetch('/api/user', {
         method: 'POST',
         headers: {
@@ -68,6 +72,8 @@ export default function Loading({ setIsInitialized, setCurrentView }: LoadingPro
         }),
       });
       if (!response.ok) {
+        const errorText = await response.text();
+        console.error('API error:', errorText);
         throw new Error('Failed to fetch or create user');
       }
       const userData = await response.json();
