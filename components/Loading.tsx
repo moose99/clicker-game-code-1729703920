@@ -41,7 +41,6 @@ export default function Loading({ setIsInitialized, setCurrentView }: LoadingPro
       let initData, telegramId, username, telegramName, startParam;
 
       if (typeof window !== 'undefined') {
-        const WebApp = (await import('@twa-dev/sdk')).default;
         WebApp.ready();
         await new Promise((resolve) => setTimeout(resolve, 100)); // Wait 100ms
         console.log("WebApp.initData:", WebApp.initData);
