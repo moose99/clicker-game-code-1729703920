@@ -43,14 +43,15 @@ export default function Loading({ setIsInitialized, setCurrentView }: LoadingPro
       if (typeof window !== 'undefined') {
         const WebApp = (await import('@twa-dev/sdk')).default;
         WebApp.ready();
+        await new Promise((resolve) => setTimeout(resolve, 100)); // Wait 100ms
+        console.log("WebApp.initData:", WebApp.initData);
+        console.log("WebApp.initDataUnsafe:", WebApp.initDataUnsafe);
         initData = WebApp.initData;
-        telegramId = WebApp.initDataUnsafe.user?.id.toString();
+        telegramId = WebApp.initDataUnsafe.user?.id?.toString();
         username = WebApp.initDataUnsafe.user?.username || 'Unknown User';
         telegramName = WebApp.initDataUnsafe.user?.first_name || 'Unknown User';
-
         startParam = WebApp.initDataUnsafe.start_param;
       }
-
 
       const referrerTelegramId = startParam ? startParam.replace('kentId', '') : null;
 
